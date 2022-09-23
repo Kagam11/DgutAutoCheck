@@ -1,0 +1,10 @@
+[
+    {
+        "Username": "111111111111",  // 学号
+        "Password": "Password1"      // 密码
+    },
+    {
+        "Username": "222222222222",
+        "Password": "Password2"
+    }// 可按此格式填写更多用户
+]
