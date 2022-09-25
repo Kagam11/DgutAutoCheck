@@ -94,9 +94,13 @@ namespace DgutAutoCheck
             var sendingData = new FormUrlEncodedContent(data);
             var loginAuthUrl = $"https://auth.dgut.edu.cn/authserver/login?service=https://auth.dgut.edu.cn/authserver/oauth2.0/callbackAuthorize";
             var result = Client.PostAsync(loginAuthUrl, sendingData).Result;
-            if (result.StatusCode != System.Net.HttpStatusCode.Redirect)
+            if(result.StatusCode!=System.Net.HttpStatusCode.Redirect)
             {
-                throw new LoginException($"{result.StatusCode}");
+                throw result.StatusCode switch
+                {
+                    System.Net.HttpStatusCode.Unauthorized => new LoginException("用户名或密码错误"),
+                    _ => new LoginException(result.StatusCode.ToString()),
+                };
             }
 
             // 经过多次重定向得到最终打卡地址
@@ -113,8 +117,9 @@ namespace DgutAutoCheck
                 token = token!,
                 state = "yqfk"
             };
-            var bearerResponse = Client.PostAsync("https://yqfk-daka-api.dgut.edu.cn/auth", new StringContent(JsonSerializer.Serialize(bearerRequest))).Result
-                .Content.ReadAsStringAsync().Result;
+            var bearerResponse = Client
+                .PostAsync("https://yqfk-daka-api.dgut.edu.cn/auth", new StringContent(JsonSerializer.Serialize(bearerRequest)))
+                .Result.Content.ReadAsStringAsync().Result;
             var bearer = JsonSerializer.Deserialize<BearerResponse>(bearerResponse)!.access_token;
             Client.DefaultRequestHeaders.Add($"Authorization", $"Bearer {bearer}");
 
@@ -153,7 +158,7 @@ namespace DgutAutoCheck
 
         public void Dispose()
         {
-            if (Client != null) Client.Dispose();
+            Client?.Dispose();
         }
     }
 }

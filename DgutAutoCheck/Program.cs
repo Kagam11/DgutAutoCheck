@@ -26,23 +26,23 @@ foreach (var user in users)
         webAuth.Check();
         Record.MakeLog($"{user.Username} 打卡成功");
     }
-    catch (LoginException ex)
-    {
-        Record.MakeLog($"{user.Username} 登录错误：{ex.Message}");
-        record.IsSuccess = false;
-        record.FailResaon = "登录错误：" + ex.Message;
-    }
-    catch (CheckException ex)
-    {
-        Record.MakeLog($"{user.Username} 打卡错误：{ex.Message}");
-        record.IsSuccess = false;
-        record.FailResaon = "打卡错误：" + ex.Message;
-    }
     catch (Exception ex)
     {
-        Record.MakeLog($"{user.Username} 其他错误：{ex.Message}");
-        record.IsSuccess = false;
-        record.FailResaon = "其他错误：" + ex.Message;
+        switch (ex)
+        {
+            case LoginException l:
+                Record.MakeLog($"{user.Username} 登录错误：{l.Message}");
+                record.IsSuccess = false;
+                break;
+            case CheckException c:
+                Record.MakeLog($"{user.Username} 打卡错误：{c.Message}");
+                record.IsSuccess = false;
+                break;
+            default:
+                Record.MakeLog($"{user.Username} 未知错误：{ex.Message}");
+                record.IsSuccess = false;
+                break;
+        }
     }
     finally
     {

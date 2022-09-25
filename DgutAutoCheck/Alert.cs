@@ -19,7 +19,6 @@ namespace DgutAutoCheck
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(config.From, config.SmtpPassword)
             };
-            
         }
         public void SendMail(string message)
         {
