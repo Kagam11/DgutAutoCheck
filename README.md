@@ -10,10 +10,9 @@
 ## 使用方法
 按要求设置好*Users.json*、*Custom.json*及*Config.json*后运行*DgutAutoCheck.exe*即可 
 <details>
-<summary>关于Config.json及smtp服务</summary>
-本软件使用smtp服务进行邮件发送提醒，关于smtp的详细介绍可参考[百度百科](https://baike.baidu.com/item/SMTP/175887?fr=aladdin)。
-
-简而言之，要使用smtp服务，你需要在你的邮件提供商处开启smtp服务并获得smtp服务的密码。
+    <summary>关于Config.json及smtp服务</summary></br>
+    
+本软件使用smtp服务进行邮件发送提醒，要使用smtp服务，你需要在你的邮件提供商处开启smtp服务并获得smtp服务的密码。
 
 以qq邮箱为例，相关选项在`设置→账户→POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务`下，授权码即为smtp服务密码。
 
@@ -23,7 +22,8 @@ qq邮箱的smtp服务器为`smtp.qq.com`，端口为`587`。
 </details>
 
 <details>
-<summary>Windows计划任务的设置</summary>
+    <summary>Windows计划任务的设置</summary></br>
+    
 通过计划任务可以使软件自动运行，以下展示每日零点十分运行一次软件的设置方法。
 
 打开任务计划程序，在win10/11下直接可以在任务栏中搜索`任务计划程序`，也可按`win+R`键打开`运行`之后输入`taskschd.msc`并确定。
@@ -37,7 +37,8 @@ qq邮箱的smtp服务器为`smtp.qq.com`，端口为`587`。
 </details>
 
 <details>
-<summary>Users.json的几个例子</summary>
+    <summary>Users.json的几个例子</summary></br>
+    
 仅需一人打卡时的例子
 
 ```javascript
