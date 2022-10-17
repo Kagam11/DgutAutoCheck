@@ -20,6 +20,10 @@ namespace DgutAutoCheck
                 Credentials = new NetworkCredential(config.From, config.SmtpPassword)
             };
         }
+        /// <summary>
+        /// 发送邮件
+        /// </summary>
+        /// <param name="message">正文</param>
         public void SendMail(string message)
         {
             if (To == null || To == "") To = From;

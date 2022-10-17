@@ -1,29 +1,46 @@
 ﻿using DgutAutoCheck;
 using System.Text.Json;
 
-var config = GetConfig();
 var records = new List<Record>();
-var users = GetUsers();
+
+Config config = new();
+List<User> users = new();
+CustomProperty customProperty = new();
+
+try
+{
+    config = GetJson<Config>("Config");
+    users = GetJson<List<User>>("Users");
+    customProperty = GetJson<CustomProperty>("Custom");
+}
+catch(Exception ex)
+{
+    Record.MakeLog("json文件读取失败，检查是否填写错误");
+    Record.MakeLog(ex.Message);
+    Record.Write($"./Log/{DateTime.Now:yyyy-MM-dd HH-mm}.txt", Record.Log);
+    return;
+}
 
 Record.MakeLog("开始打卡");
 Record.MakeLog($"发现 {users.Count} 个用户需打卡");
 Record.MakeLog("===============================");
 foreach (var user in users)
 {
+    // 对打卡结果进行记录
     var record = new Record()
     {
         Username = user.Username
     };
-    try
-    {
 
+    try // 登录并打卡
+    {
         Record.MakeLog($"正在打卡：{user.Username}");
         using var webAuth = new WebAuth();
         webAuth.GetLoginInfo();
         webAuth.Login(user.Username!, user.Password!);
         webAuth.GetLastJson();
         if (config.IsSaveJson) Record.Write($"./Json/{DateTime.Now:yyyy-MM-dd HH-mm}-{user.Username}.txt", webAuth.LastJson!);
-        webAuth.Check();
+        webAuth.Check(customProperty);
         Record.MakeLog($"{user.Username} 打卡成功");
     }
     catch (Exception ex)
@@ -49,6 +66,7 @@ foreach (var user in users)
         records.Add(record);
     }
 }
+
 Record.MakeLog("===============================");
 Record.MakeLog("所有用户打卡完毕");
 Record.MakeLog("");
@@ -64,6 +82,7 @@ else
         if (record.IsSuccess == false) Record.MakeLog($"{record.Username}: {record.FailResaon}");
     }
 }
+
 Record.Write($"./Log/{DateTime.Now:yyyy-MM-dd HH-mm}.txt", Record.Log);
 if (records.Any(item => item.IsSuccess == false))
 {
@@ -71,35 +90,29 @@ if (records.Any(item => item.IsSuccess == false))
     {
         if (config.SendEmailIfAnyFail)
         {
-            var alert = new Alert(config);
-            alert.From = config.From;
-            alert.To = config.To;
+            var alert = new Alert(config)
+            {
+                From = config.From,
+                To = config.To
+            };
             alert.SendMail(Record.Log);
         }
     }
     catch { }
 }
 
-
-Config GetConfig()
+// 从json获取实例
+T GetJson<T>(string name) where T : class
 {
 #if !DEBUG
-    var path = "./Config.json";
+    var path = $"./{name}.json";
 #else
-    var path = "./Config_debug.json";
+    var path = $"./{name}_debug.json";
 #endif
-    return Deserialize<Config>(new StreamReader(path).ReadToEnd())!;
-}
-List<User> GetUsers()
-{
-#if !DEBUG
-    var path = "./Users.json";
-#else
-    var path = "./Users_debug.json";
-#endif
-    return Deserialize<List<User>>(new StreamReader(path).ReadToEnd())!;
+    return Deserialize<T>(new StreamReader(path).ReadToEnd())!;
 }
 
+// 兼容注释的反序列化
 T Deserialize<T>(string json) where T : class
 {
     var option = new JsonSerializerOptions

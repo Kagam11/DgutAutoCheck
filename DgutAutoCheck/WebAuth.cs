@@ -139,12 +139,12 @@ namespace DgutAutoCheck
         /// <summary>
         /// 生成上传数据打卡并检测是否成功
         /// </summary>
-        public void Check()
+        public void Check(CustomProperty custom)
         {
             var lastData = JsonSerializer.Deserialize<LastData>(LastJson!);
             var uploadingData = new UploadingData()
             {
-                data = new UploadingDataBody(lastData!.user_data)
+                data = new UploadingDataBody(lastData!.user_data, custom)
             };
             LastJson = JsonSerializer.Serialize(uploadingData);
             var result = Client!.PostAsync("https://yqfk-daka-api.dgut.edu.cn/record/", new StringContent(LastJson)).Result;

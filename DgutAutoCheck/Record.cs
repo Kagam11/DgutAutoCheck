@@ -66,4 +66,16 @@
         /// </summary>
         public bool IsSaveJson { get; set; }
     }
+
+    /// <summary>
+    /// 自定义提交字段
+    /// </summary>
+    public class CustomProperty
+    {
+#pragma warning disable IDE1006
+        public double? body_temperature { get; set; }
+        public int? health_situation { get; set; }
+        public int? is_in_school { get; set; }
+#pragma warning restore IDE1006
+    }
 }

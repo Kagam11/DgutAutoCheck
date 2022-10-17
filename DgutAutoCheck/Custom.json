@@ -1,0 +1,5 @@
+{
+    "body_temperature": 36,  // 体温
+    "health_situation": 1,   // 身体状况，1为良好
+    "is_in_school": 1        // 是否在校，1为在松山湖，2为在莞城，3为不在校
+}

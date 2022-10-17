@@ -45,18 +45,12 @@
     public class UploadingDataBody
     {
 
-        public UploadingDataBody(UserDataLast userDataLast)
+        public UploadingDataBody(UserDataLast userDataLast, CustomProperty custom)
         {
             // 每天都要重写的三样
-            body_temperature = "36";
-            if (userDataLast.health_situation == null)
-                health_situation = 1;
-            else
-                health_situation = userDataLast.health_situation;
-            if (userDataLast.is_in_school == null)
-                is_in_school = 1;
-            else
-                is_in_school = userDataLast.is_in_school;
+            body_temperature = custom.body_temperature.ToString();
+            health_situation = custom.health_situation;
+            is_in_school = custom.is_in_school;
 
             submit_time = userDataLast.submit_time;
             name = userDataLast.name;

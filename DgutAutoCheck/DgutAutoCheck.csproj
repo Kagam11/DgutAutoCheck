@@ -15,6 +15,9 @@
     <None Update="Config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Custom.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Json\IgnoreThis">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
