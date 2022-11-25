@@ -23,8 +23,8 @@ namespace DgutAutoCheck
             aes.BlockSize = 128;
             aes.Key = Encoding.ASCII.GetBytes(key);
             // 懒得写随机，让他们固定吧
-            var passwordBytes = Encoding.UTF8.GetBytes($"おぼろに霞む春のつき このおもい風と舞い散れ{password}");
-            var encrypted = aes.EncryptCbc(passwordBytes, Encoding.UTF8.GetBytes("はつね ミク"));
+            var passwordBytes = Encoding.UTF8.GetBytes($"Oboronikasumuharunotsuki Konoomoikazetomaichire Younosoraniawaku{password}");
+            var encrypted = aes.EncryptCbc(passwordBytes, Encoding.UTF8.GetBytes("HatsuneMiku39393"));
             return Convert.ToBase64String(encrypted);
         }
     }
