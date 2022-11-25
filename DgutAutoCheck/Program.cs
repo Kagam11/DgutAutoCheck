@@ -70,16 +70,16 @@ foreach (var user in users)
 Record.MakeLog("===============================");
 Record.MakeLog("所有用户打卡完毕");
 Record.MakeLog("");
-if (!records.Any(item => item.IsSuccess == false))
+if (records.All(item => item.IsSuccess))
 {
     Record.MakeLog("没有异常，好耶");
 }
 else
 {
     Record.MakeLog($"存在 {records.Count(item => item.IsSuccess == false)} 个用户打卡异常：");
-    foreach (var record in records)
+    foreach (var record in records.Where(record => record.IsSuccess == false))
     {
-        if (record.IsSuccess == false) Record.MakeLog($"{record.Username}: {record.FailResaon}");
+        Record.MakeLog($"{record.Username}: {record.FailResaon}");
     }
 }
 

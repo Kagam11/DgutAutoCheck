@@ -26,7 +26,7 @@ namespace DgutAutoCheck
         /// <param name="message">正文</param>
         public void SendMail(string message)
         {
-            if (To == null || To == "") To = From;
+            if (string.IsNullOrEmpty(To)) To = From;
             var mail = new MailMessage(From!, To!)
             {
                 Subject = "打卡异常",

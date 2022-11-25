@@ -1,4 +1,6 @@
-﻿namespace DgutAutoCheck
+﻿using System.Runtime.CompilerServices;
+
+namespace DgutAutoCheck
 {
     /// <summary>
     /// 需打卡用户
@@ -47,10 +49,12 @@
 
         public UploadingDataBody(UserDataLast userDataLast, CustomProperty custom)
         {
-            // 每天都要重写的三样
+            // 每天都要重写的四样
             body_temperature = custom.body_temperature.ToString();
             health_situation = custom.health_situation;
             is_in_school = custom.is_in_school;
+            now_detail_address_name = custom.now_detail_address_name;
+            now_detail_address = now_detail_address_name!.Split("/").ToList();
 
             submit_time = userDataLast.submit_time;
             name = userDataLast.name;
@@ -104,9 +108,9 @@
             now_in_area_level = userDataLast.now_in_area_level;
         }
 
-
+        public string? now_detail_address_name { get; set; }
+        public List<string> now_detail_address { get; set; }
         public string? submit_time { get; set; }
-
         public string? name { get; set; }
         public string? faculty_name { get; set; }
         public string? class_name { get; set; }

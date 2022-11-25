@@ -37,7 +37,7 @@ namespace DgutAutoCheck
         /// </summary>
         public WebAuth()
         {
-            Client = new(new HttpClientHandler
+            Client = new HttpClient(new HttpClientHandler
             {
                 AllowAutoRedirect = false
             });
@@ -92,7 +92,7 @@ namespace DgutAutoCheck
                 {"client_name","CasOAuthClient"}
             };
             var sendingData = new FormUrlEncodedContent(data);
-            var loginAuthUrl = $"https://auth.dgut.edu.cn/authserver/login?service=https://auth.dgut.edu.cn/authserver/oauth2.0/callbackAuthorize";
+            var loginAuthUrl = "https://auth.dgut.edu.cn/authserver/login?service=https://auth.dgut.edu.cn/authserver/oauth2.0/callbackAuthorize";
             var result = Client.PostAsync(loginAuthUrl, sendingData).Result;
             if(result.StatusCode!=System.Net.HttpStatusCode.Redirect)
             {

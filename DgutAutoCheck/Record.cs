@@ -76,6 +76,7 @@
         public double? body_temperature { get; set; }
         public int? health_situation { get; set; }
         public int? is_in_school { get; set; }
+        public string? now_detail_address_name { get; set; }
 #pragma warning restore IDE1006
     }
 }
