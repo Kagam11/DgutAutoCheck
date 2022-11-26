@@ -14,23 +14,23 @@ namespace DgutAutoCheck
         /// <summary>
         /// 干活的客户端
         /// </summary>
-        public HttpClient? Client { get; set; } = null;
+        public HttpClient? Client { get; set; }
         /// <summary>
         /// 登陆页面url
         /// </summary>
-        public string? LoginUrl { get; private set; } = null;
+        public string? LoginUrl { get; private set; }
         /// <summary>
         /// 需要用到的标记
         /// </summary>
-        public string? ClientId { get; private set; } = null;
+        public string? ClientId { get; private set; }
         /// <summary>
         /// 打卡Url
         /// </summary>
-        public string? CheckUrl { get; private set; } = null;
+        public string? CheckUrl { get; private set; }
         /// <summary>
         /// 上次打卡json
         /// </summary>
-        public string? LastJson { get; private set; } = null;
+        public string? LastJson { get; private set; }
 
         /// <summary>
         /// 新建http客户端并不允许自动重定向
@@ -136,24 +136,13 @@ namespace DgutAutoCheck
             var respond = Client!.GetAsync("https://yqfk-daka-api.dgut.edu.cn/record/").Result;
             LastJson = respond.Content.ReadAsStringAsync().Result;
         }
+
         /// <summary>
-        /// 生成上传数据打卡并检测是否成功
+        /// 打卡
         /// </summary>
-        public void Check(CustomProperty custom)
+        public void Check(CustomProperty customProperty)
         {
-            var lastData = JsonSerializer.Deserialize<LastData>(LastJson!);
-            var uploadingData = new UploadingData()
-            {
-                data = new UploadingDataBody(lastData!.user_data, custom)
-            };
-            LastJson = JsonSerializer.Serialize(uploadingData);
-            var result = Client!.PostAsync("https://yqfk-daka-api.dgut.edu.cn/record/", new StringContent(LastJson)).Result;
-            var resultInfo = System.Text.RegularExpressions.Regex
-                .Unescape(JsonSerializer.Deserialize<CheckResponse>(result.Content.ReadAsStringAsync().Result)!.message);
-            if (!resultInfo.Contains("您今天已打卡成功！"))
-            {
-                throw new CheckException(resultInfo);
-            }
+            var json = new CheckData().CreateNew(LastJson!);
         }
 
         public void Dispose()

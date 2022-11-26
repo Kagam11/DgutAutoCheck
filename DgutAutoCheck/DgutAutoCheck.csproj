@@ -24,6 +24,9 @@
     <None Update="Log\IgnoreThis">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="UploadProperties.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Users.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

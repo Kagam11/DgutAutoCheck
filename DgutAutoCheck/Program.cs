@@ -2,16 +2,14 @@
 using System.Text.Json;
 
 var records = new List<Record>();
-
-Config config = new();
-List<User> users = new();
-CustomProperty customProperty = new();
+var users = new List<User>();
 
 try
 {
-    config = GetJson<Config>("Config");
+    Settings.Config = GetJson<Configuration>("Config");
     users = GetJson<List<User>>("Users");
-    customProperty = GetJson<CustomProperty>("Custom");
+    Settings.CustomProperty = GetJson<CustomProperty>("Custom");
+    Settings.CheckData = GetJson<CheckData>("UploadProperties");
 }
 catch(Exception ex)
 {
@@ -39,8 +37,10 @@ foreach (var user in users)
         webAuth.GetLoginInfo();
         webAuth.Login(user.Username!, user.Password!);
         webAuth.GetLastJson();
-        if (config.IsSaveJson) Record.Write($"./Json/{DateTime.Now:yyyy-MM-dd HH-mm}-{user.Username}.txt", webAuth.LastJson!);
-        webAuth.Check(customProperty);
+        
+        if (Settings.Config.IsSaveJson) Record.Write($"./Json/{DateTime.Now:yyyy-MM-dd HH-mm}-{user.Username}.txt", webAuth.LastJson!);
+        
+        webAuth.Check(Settings.CustomProperty);
         Record.MakeLog($"{user.Username} 打卡成功");
     }
     catch (Exception ex)
@@ -79,7 +79,7 @@ else
     Record.MakeLog($"存在 {records.Count(item => item.IsSuccess == false)} 个用户打卡异常：");
     foreach (var record in records.Where(record => record.IsSuccess == false))
     {
-        Record.MakeLog($"{record.Username}: {record.FailResaon}");
+        Record.MakeLog($"{record.Username}: {record.FailReason}");
     }
 }
 
@@ -88,12 +88,12 @@ if (records.Any(item => item.IsSuccess == false))
 {
     try
     {
-        if (config.SendEmailIfAnyFail)
+        if (Settings.Config.SendEmailIfAnyFail)
         {
-            var alert = new Alert(config)
+            var alert = new Alert(Settings.Config)
             {
-                From = config.From,
-                To = config.To
+                From = Settings.Config.From,
+                To = Settings.Config.To
             };
             alert.SendMail(Record.Log);
         }

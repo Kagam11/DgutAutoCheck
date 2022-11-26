@@ -8,16 +8,16 @@ namespace DgutAutoCheck
     /// </summary>
     internal class Alert
     {
-        private readonly SmtpClient? smtp = null;
+        private readonly SmtpClient? smtp;
         public string? From { private get; set; }
         public string? To { private get; set; }
-        public Alert(Config config)
+        public Alert(Configuration configuration)
         {
-            smtp = new SmtpClient(config.SmtpServer, config.Port)
+            smtp = new SmtpClient(configuration.SmtpServer, configuration.Port)
             {
                 EnableSsl = true,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(config.From, config.SmtpPassword)
+                Credentials = new NetworkCredential(configuration.From, configuration.SmtpPassword)
             };
         }
         /// <summary>
