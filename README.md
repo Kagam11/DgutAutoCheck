@@ -6,7 +6,7 @@
 通过设置Windows计划任务可以做到每日自动打卡
 
 ## 更新计划
-转到[Preview](https://github.com/Kagam11/DgutAutoCheck/tree/preview)了解正在实现的功能
+转到[Preview](https://github.com/Kagam11/DgutAutoCheck/tree/preview)了解打算实现的功能
 
 ## 下载
 你可以在[Latest Release](https://github.com/Kagam11/DgutAutoCheck/releases/latest)下载编译好的最新版本
