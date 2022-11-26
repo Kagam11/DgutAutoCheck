@@ -55,7 +55,7 @@ namespace DgutAutoCheck
     {
         public static Configuration Config { get; set; }
         public static CheckData CheckData { get; set; }
-        public static CustomProperty CustomProperty { get; set; }
+        public static Dictionary<string, object> CustomProperty { get; set; }
     }
 
     /// <summary>
@@ -74,24 +74,12 @@ namespace DgutAutoCheck
             {
                 result[property] = item[property];
             }
-            foreach (var property in typeof(CustomProperty).GetProperties())
+            foreach (var key in Settings.CustomProperty.Keys)
             {
-                result[property.ToString()!] = ((IDictionary<string, object>)Settings.CustomProperty)[property.ToString()!];
+                result[key] = Settings.CustomProperty[key];
             }
             return JsonSerializer.Serialize(result);
         }
-    }
-    /// <summary>
-    /// 自定义提交字段
-    /// </summary>
-    public class CustomProperty
-    {
-#pragma warning disable IDE1006
-        public double? body_temperature { get; set; }
-        public int? health_situation { get; set; }
-        public int? is_in_school { get; set; }
-        public string? now_detail_address_name { get; set; }
-#pragma warning restore IDE1006
     }
     #region 登录相关
 #pragma warning disable IDE1006 // 别烦

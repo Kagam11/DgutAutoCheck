@@ -8,7 +8,7 @@ try
 {
     Settings.Config = GetJson<Configuration>("Config");
     users = GetJson<List<User>>("Users");
-    Settings.CustomProperty = GetJson<CustomProperty>("Custom");
+    Settings.CustomProperty = GetJson<Dictionary<string, object>>("Custom");
     Settings.CheckData = GetJson<CheckData>("UploadProperties");
 }
 catch(Exception ex)
@@ -40,7 +40,7 @@ foreach (var user in users)
         
         if (Settings.Config.IsSaveJson) Record.Write($"./Json/{DateTime.Now:yyyy-MM-dd HH-mm}-{user.Username}.txt", webAuth.LastJson!);
         
-        webAuth.Check(Settings.CustomProperty);
+        webAuth.Check();
         Record.MakeLog($"{user.Username} 打卡成功");
     }
     catch (Exception ex)

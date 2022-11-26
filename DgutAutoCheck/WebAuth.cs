@@ -140,7 +140,7 @@ namespace DgutAutoCheck
         /// <summary>
         /// 打卡
         /// </summary>
-        public void Check(CustomProperty customProperty)
+        public void Check()
         {
             var json = new CheckData().CreateNew(LastJson!);
         }
