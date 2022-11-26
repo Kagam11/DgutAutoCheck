@@ -2,10 +2,10 @@
 ***
 ***使用此软件造成的一切后果自行承担***  
 ***
-一个基于收发http数据包的一键打卡脚本，支持复数用户打卡并可以在打卡失败后发送邮件进行提醒  
+**DgutAutoCheck**是一个基于收发http数据包的一键打卡脚本，支持复数用户打卡并可以在打卡失败后发送邮件进行提醒  
 通过设置Windows计划任务可以做到每日自动打卡
 ## 下载
-你可以在[Releases](https://github.com/Kagam11/DgutAutoCheck/releases/latest)下载编译好的最新版本
+你可以在[Latest Release](https://github.com/Kagam11/DgutAutoCheck/releases/latest)下载编译好的最新版本
 
 ## 使用方法
 按要求设置好*Users.json*、*Custom.json*及*Config.json*后运行*DgutAutoCheck.exe*即可 
@@ -71,3 +71,17 @@ qq邮箱的smtp服务器为`smtp.qq.com`，端口为`587`。
 
 ## 注意事项
 打卡过程为获取上一次存储的打卡信息并提交，在相关信息修改后请手动打一次卡以保证数据准确性
+
+## 更新历史
+*1.0.2*  
+* 应对最新提交要求，增加详细地址项目
+
+<details>
+    <summary>过往版本</summary></br>
+
+*1.0.1*  
+* 将体温、是否在校、健康状况单独提取为可设置项目
+
+*1.0.0*
+* 发布
+</details>
