@@ -143,6 +143,13 @@ namespace DgutAutoCheck
         public void Check()
         {
             var json = new CheckData().CreateNew(LastJson!);
+            var result = Client!.PostAsync("https://yqfk-daka-api.dgut.edu.cn/record/", new StringContent(json)).Result;
+            var resultInfo = System.Text.RegularExpressions.Regex
+                .Unescape(JsonSerializer.Deserialize<CheckResponse>(result.Content.ReadAsStringAsync().Result)!.message);
+            if (!resultInfo.Contains("您今天已打卡成功！"))
+            {
+                throw new CheckException(resultInfo);
+            }
         }
 
         public void Dispose()

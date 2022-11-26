@@ -78,7 +78,7 @@ namespace DgutAutoCheck
             {
                 result[key] = Settings.CustomProperty[key];
             }
-            return JsonSerializer.Serialize(result);
+            return $"{{\"data\": {JsonSerializer.Serialize(result)}}}";
         }
     }
     #region 登录相关
