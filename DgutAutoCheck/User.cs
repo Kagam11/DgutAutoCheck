@@ -65,7 +65,7 @@ namespace DgutAutoCheck
     {
         public string Date { get; set; }
         public List<string> Properties { get; set; }
-        public string CreateNew(string last)
+        public static string CreateNew(string last)
         {
             dynamic obj = JsonSerializer.Deserialize<ExpandoObject>(last)!;
             IDictionary<string, object> item = JsonSerializer.Deserialize<ExpandoObject>(obj.user_data);

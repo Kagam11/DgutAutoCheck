@@ -147,7 +147,7 @@ namespace DgutAutoCheck
         /// </summary>
         public void Check()
         {
-            var json = new CheckData().CreateNew(LastJson!);
+            var json = CheckData.CreateNew(LastJson!);
             var result = Client!.PostAsync("https://yqfk-daka-api.dgut.edu.cn/record/", new StringContent(json)).Result;
             var resultInfo = System.Text.RegularExpressions.Regex
                 .Unescape(JsonSerializer.Deserialize<dynamic>(result.Content.ReadAsStringAsync().Result)!.GetProperty("message").ToString());
