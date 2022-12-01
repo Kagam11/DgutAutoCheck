@@ -81,49 +81,7 @@ namespace DgutAutoCheck
             return $"{{\"data\": {JsonSerializer.Serialize(result)}}}";
         }
     }
-    #region 登录相关
-#pragma warning disable IDE1006 // 别烦
-#pragma warning disable CS8618
-    /// <summary>
-    /// 获取登陆页面时获取的json
-    /// </summary>
-    public class LoginRespond
-    {
-        public LoginUrlData data { get; set; }
-    }
-    /// <summary>
-    /// 获取登陆页面时获取json里面的数据
-    /// </summary>
-    public class LoginUrlData
-    {
-        public string url { get; set; }
-    }
-    /// <summary>
-    /// 获取bearer认证用
-    /// </summary>
-    public class BearerRequest
-    {
-        public string token { get; set; }
-        public string state { get; set; }
-    }
-    /// <summary>
-    /// 获取bearer的返回值
-    /// </summary>
-    public class BearerResponse
-    {
-        public string access_token { get; set; }
-    }
-    /// <summary>
-    /// 打卡结果
-    /// </summary>
-    public class CheckResponse
-    {
-        public string message { get; set; }
-    }
-#pragma warning restore CS8618
-#pragma warning restore IDE1006
-    #endregion
-    
+
     #region 异常处理类
     /// <summary>
     /// 打卡时错误

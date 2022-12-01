@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Web;
 
 namespace DgutAutoCheck
@@ -49,11 +50,15 @@ namespace DgutAutoCheck
         /// <returns>包括地址和之后用到的客户端id</returns>
         public void GetLoginInfo()
         {
-            var json = Client!.GetAsync(preUrl).Result.Content.ReadAsStringAsync().Result;
-            var url4ClientId1 = JsonSerializer.Deserialize<LoginRespond>(json!)!.data.url;
-            var clientId = HttpUtility.ParseQueryString(new Uri(url4ClientId1).Query).Get("client_id");
+            var json = Client!.GetAsync(preUrl).Result
+                .Content.ReadAsStringAsync().Result;
+            var url4ClientId1 = JsonSerializer.Deserialize<dynamic>(json)!
+                .GetProperty("data")
+                .GetProperty("url").ToString();
+            var clientId = HttpUtility.ParseQueryString(new Uri(url4ClientId1.ToString()).Query).Get("client_id");
             var forDirection = $"https://auth.dgut.edu.cn/authserver/oauth2.0/authorize?response_type=code&client_id={clientId}&redirect_uri=https://yqfk-daka.dgut.edu.cn/new_login/dgut&state=yqfk";
-            var url = Client!.GetAsync(forDirection).Result.Headers.GetValues("Location").First();
+            var url = Client!.GetAsync(forDirection).Result
+                .Headers.GetValues("Location").First();
             LoginUrl = url;
             ClientId = clientId!;
         }
@@ -94,7 +99,7 @@ namespace DgutAutoCheck
             var sendingData = new FormUrlEncodedContent(data);
             var loginAuthUrl = "https://auth.dgut.edu.cn/authserver/login?service=https://auth.dgut.edu.cn/authserver/oauth2.0/callbackAuthorize";
             var result = Client.PostAsync(loginAuthUrl, sendingData).Result;
-            if(result.StatusCode!=System.Net.HttpStatusCode.Redirect)
+            if (result.StatusCode != System.Net.HttpStatusCode.Redirect)
             {
                 throw result.StatusCode switch
                 {
@@ -112,17 +117,17 @@ namespace DgutAutoCheck
             // 注意此处token，将用于获取bearer认证
             var step3 = and.Headers.GetValues("Location").First();
             var token = HttpUtility.ParseQueryString(new Uri(step3).Query).Get("code");
-            var bearerRequest = new BearerRequest()
+            var bearerRequest = new Dictionary<string, string>
             {
-                token = token!,
-                state = "yqfk"
+                { "token", token! },
+                { "state", "yqfk" }
             };
             var bearerResponse = Client
                 .PostAsync("https://yqfk-daka-api.dgut.edu.cn/auth", new StringContent(JsonSerializer.Serialize(bearerRequest)))
                 .Result.Content.ReadAsStringAsync().Result;
-            var bearer = JsonSerializer.Deserialize<BearerResponse>(bearerResponse)!.access_token;
+            var bearer = JsonSerializer.Deserialize<dynamic>(bearerResponse)!
+                .GetProperty("access_token").ToString();
             Client.DefaultRequestHeaders.Add($"Authorization", $"Bearer {bearer}");
-
             var final = Client.GetAsync(step3).Result;
             var checkUrl = final.Content.ReadAsStringAsync().Result;
             CheckUrl = checkUrl;
@@ -145,7 +150,7 @@ namespace DgutAutoCheck
             var json = new CheckData().CreateNew(LastJson!);
             var result = Client!.PostAsync("https://yqfk-daka-api.dgut.edu.cn/record/", new StringContent(json)).Result;
             var resultInfo = System.Text.RegularExpressions.Regex
-                .Unescape(JsonSerializer.Deserialize<CheckResponse>(result.Content.ReadAsStringAsync().Result)!.message);
+                .Unescape(JsonSerializer.Deserialize<dynamic>(result.Content.ReadAsStringAsync().Result)!.GetProperty("message").ToString());
             if (!resultInfo.Contains("您今天已打卡成功！"))
             {
                 throw new CheckException(resultInfo);
