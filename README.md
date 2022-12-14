@@ -1,4 +1,11 @@
 # DgutAutoCheck
+## 最新消息
+随着[最新通知](https://mp.weixin.qq.com/s?__biz=MzAxNjA5NDIzMA==&mid=2652100229&idx=1&sn=10d5a7c92b120e164444c7d16b0ff533)的下发，伴随我们三年有余的每日健康申报也预计即将停止  
+相信许多人也为这一天等待了太久  
+因此在形势不发生变化的情况下，本repo的后续更新将无限期搁置  
+希望所有人都能够健康、自由地走向未来  
+`如果再也无法相见，那祝你早安、午安、晚安。`
+
 ***
 ***使用此软件造成的一切后果自行承担***  
 ***
@@ -6,7 +13,8 @@
 通过设置Windows计划任务可以做到每日自动打卡
 
 ## 更新计划
-转到[Preview](https://github.com/Kagam11/DgutAutoCheck/tree/preview)了解打算实现的功能
+🕊啦  
+~~转到[Preview](https://github.com/Kagam11/DgutAutoCheck/tree/preview)了解打算实现的功能~~
 
 ## 下载
 你可以在[Latest Release](https://github.com/Kagam11/DgutAutoCheck/releases/latest)下载编译好的最新版本
